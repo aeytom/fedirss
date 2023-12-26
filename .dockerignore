@@ -1,1 +1,4 @@
 env.yaml
+fedilpd
+Dockerfile
+k8s/

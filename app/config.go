@@ -34,14 +34,14 @@ func LoadConfig() *Settings {
 	flag.Parse()
 
 	if ep, err := filepath.Abs(*envPath); err != nil {
-		log.Println(*envPath, err)
+		log.Fatalln(*envPath, err)
 	} else {
 		*envPath = ep
 	}
 
 	ed, err := os.ReadFile(*envPath)
 	if err != nil {
-		log.Println(*envPath, err)
+		log.Fatalln(*envPath, err)
 	} else {
 		err = yaml.Unmarshal([]byte(ed), &Config)
 		if err != nil {
@@ -50,13 +50,15 @@ func LoadConfig() *Settings {
 	}
 
 	if Config.Db.Dsn == "" {
-		// default lookup shops.json in directory of .env.yaml
-		Config.Db.Dsn = "root:just-for-testing@(mysql)/payment"
+		Config.Db.Dsn = "bdelpd.db"
 	}
 
 	if Config.Db.Opt == "" {
-		// default lookup shops.json in directory of .env.yaml
-		Config.Db.Opt = "loc=Local&parseTime=true"
+		Config.Db.Opt = "mode=rwc&_journal=wal"
+	}
+
+	if Config.Feed.Url == "" {
+		Config.Feed.Url = "https://www.berlin.de/presse/pressemitteilungen/index/feed?startdate="
 	}
 
 	if Config.AppDir == "" {

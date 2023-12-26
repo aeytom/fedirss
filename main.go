@@ -12,6 +12,31 @@ import (
 	"github.com/ungerik/go-rss"
 )
 
+var (
+	tags = []string{
+		"Berlin",
+		"Polizei",
+		"Friedrichshain",
+		"Kreuzberg",
+		"Pankow",
+		"Charlottenburg",
+		"Wilmersdorf",
+		"Spandau",
+		"Steglitz",
+		"Zehlendorf",
+		"Tempelhof",
+		"Schöneberg",
+		"Neukölln",
+		"Treptow",
+		"Köpenick",
+		"Marzahn",
+		"Hellersdorf",
+		"Lichtenberg",
+		"Reinickendorf",
+	}
+	tagsRe *regexp.Regexp
+)
+
 func main() {
 
 	settings := app.LoadConfig()
@@ -30,6 +55,7 @@ func main() {
 		fmt.Println(err)
 	}
 
+	tagsRe = regexp.MustCompile(`(?i)\b(` + strings.Join(tags, "|") + `)`)
 	fmt.Println(channel.Title)
 
 	defer settings.CloseDatabase()
@@ -53,11 +79,11 @@ func main() {
 			continue
 		}
 		link := regexp.MustCompile(`^.*\.(\d+)\.php$`).ReplaceAllString(item.Link, "https://berlin.de/-ii$1")
-		categories := strings.Join(item.Category, " ")
-		status := item.Description + "\n\n" + categories + "\n" + link
+		categories := hashtag(strings.Join(item.Category, " "))
+		status := hashtag(item.Description) + "\n\n" + categories + "\n" + link
 		length := len(item.Title + status)
 		if length > 500 {
-			status = item.Description[:len(item.Description)-(length-501)] + "…\n\n" + categories + "\n" + link
+			status = hashtag(item.Description[:len(item.Description)-(length-501)]) + "…\n\n" + categories + "\n" + link
 		}
 		toot := &mastodon.Toot{
 			Status:      status,
@@ -77,4 +103,9 @@ func main() {
 			settings.Log("… sent ", item.Link)
 		}
 	}
+}
+
+func hashtag(text string) string {
+	out := tagsRe.ReplaceAllString(text, "#$1")
+	return out
 }

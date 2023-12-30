@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"html"
 	"regexp"
 	"strings"
 	"time"
@@ -55,7 +56,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	tagsRe = regexp.MustCompile(`(?i)\b(` + strings.Join(tags, "|") + `)`)
+	tagsRe = regexp.MustCompile(`\b(` + strings.Join(tags, "|") + `)\b`)
 	fmt.Println(channel.Title)
 
 	defer settings.CloseDatabase()
@@ -81,14 +82,14 @@ func main() {
 		link := regexp.MustCompile(`^.*\.(\d+)\.php$`).ReplaceAllString(item.Link, "https://berlin.de/-ii$1")
 		categories := hashtag(strings.Join(item.Category, " "))
 		status := hashtag(item.Description) + "\n\n" + categories + "\n" + link
-		length := len(item.Title + status)
+		length := len(hashtag(item.Title) + status)
 		if length > 500 {
 			status = hashtag(item.Description[:len(item.Description)-(length-501)]) + "…\n\n" + categories + "\n" + link
 		}
 		toot := &mastodon.Toot{
 			Status:      status,
 			Sensitive:   true,
-			SpoilerText: item.Title,
+			SpoilerText: hashtag(item.Title),
 			Visibility:  "public",
 			Language:    "de",
 			ScheduledAt: &scheduledAt,
@@ -106,6 +107,6 @@ func main() {
 }
 
 func hashtag(text string) string {
-	out := tagsRe.ReplaceAllString(text, "#$1")
+	out := tagsRe.ReplaceAllString(html.UnescapeString(text), "#$1")
 	return out
 }

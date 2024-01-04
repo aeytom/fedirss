@@ -92,7 +92,7 @@ func (s *Settings) MarkSent(item *rss.Item) {
 func (s *Settings) MarkError(item *rss.Item, err error) {
 	db := s.GetDatabase()
 	sql := "UPDATE `feed` SET `sent`=? WHERE `url`=?"
-	if _, err := db.Exec(sql, err, item.Link); err != nil {
+	if _, err := db.Exec(sql, err.Error(), item.Link); err != nil {
 		s.Log(err)
 	}
 }

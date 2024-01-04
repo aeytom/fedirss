@@ -79,25 +79,25 @@ func main() {
 			settings.Log(err)
 			continue
 		}
+		title := hashtag(item.Title)
 		link := regexp.MustCompile(`^.*\.(\d+)\.php$`).ReplaceAllString(item.Link, "https://berlin.de/-ii$1")
-		categories := hashtag(strings.Join(item.Category, " "))
-		status := hashtag(item.Description) + "\n\n" + categories + "\n" + link
-		length := len(hashtag(item.Title) + status)
+		footer := "\n\n" + hashtag(strings.Join(item.Category, " ")) + "\n" + link
+		status := hashtag(item.Description) + footer
+		length := mblen(title + status)
 		if length > 500 {
-			status = hashtag(item.Description[:len(item.Description)-(length-501)]) + "…\n\n" + categories + "\n" + link
+			status = hashtag(left(item.Description, 499-mblen(title)-mblen(footer))) + "…" + footer
 		}
 		toot := &mastodon.Toot{
 			Status:      status,
 			Sensitive:   true,
-			SpoilerText: hashtag(item.Title),
+			SpoilerText: title,
 			Visibility:  "public",
 			Language:    "de",
 			ScheduledAt: &scheduledAt,
-			Poll:        &mastodon.TootPoll{},
 		}
 		if _, err := mc.PostStatus(context.Background(), toot); err != nil {
+			settings.Logf("%s – %s – (%d/%d) :: %s", title, status, mblen(title), mblen(status), err.Error())
 			settings.MarkError(item, err)
-			settings.Log(err)
 			continue
 		} else {
 			settings.MarkSent(item)
@@ -109,4 +109,13 @@ func main() {
 func hashtag(text string) string {
 	out := tagsRe.ReplaceAllString(html.UnescapeString(text), "#$1")
 	return out
+}
+
+func mblen(text string) int {
+	return len([]rune(text))
+}
+
+func left(input string, length int) string {
+	asRunes := []rune(input)
+	return string(asRunes[0 : length-1])
 }

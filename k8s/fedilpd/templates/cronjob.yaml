@@ -14,8 +14,8 @@ spec:
       creationTimestamp: null
       name: fedilpd
     spec:
-      activeDeadlineSeconds: 300
-      ttlSecondsAfterFinished: 300
+      activeDeadlineSeconds: 900
+      ttlSecondsAfterFinished: 900
       backoffLimit: 0
       completions: 1
       template:

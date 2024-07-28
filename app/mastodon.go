@@ -14,7 +14,7 @@ type MastodonConfig struct {
 	ClientID string `yaml:"client_id,omitempty"`
 	// Client secret: ose…
 	ClientSecret string `yaml:"client_secret,omitempty"`
-	// Application name: fedilpd
+	// Application name: fedirss
 	ClientName string `yaml:"client_name,omitempty"`
 	// Scopes: read write follow
 	Scopes string `yaml:"scopes,omitempty"`

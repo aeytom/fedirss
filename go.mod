@@ -1,18 +1,23 @@
-module github.com/aeytom/fedilpd
+module github.com/aeytom/fedirss
 
-go 1.21.5
+go 1.22.5
 
 require (
-	github.com/go-yaml/yaml v2.1.0+incompatible
-	github.com/mattn/go-mastodon v0.0.6
-	github.com/mattn/go-sqlite3 v1.14.19
-	github.com/ungerik/go-rss v0.0.0-20200405130036-81ac15598626
+	github.com/mattn/go-mastodon v0.0.8
+	github.com/mattn/go-sqlite3 v1.14.22
+	github.com/mmcdole/gofeed v1.3.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
-	github.com/gorilla/websocket v1.5.0 // indirect
-	github.com/paulrosania/go-charset v0.0.0-20190326053356-55c9d7a5834c // indirect
+	github.com/PuerkitoBio/goquery v1.9.2 // indirect
+	github.com/andybalholm/cascadia v1.3.2 // indirect
+	github.com/gorilla/websocket v1.5.3 // indirect
+	github.com/json-iterator/go v1.1.12 // indirect
+	github.com/mmcdole/goxpp v1.1.1 // indirect
+	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
+	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80 // indirect
-	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
-	gopkg.in/yaml.v2 v2.4.0 // indirect
+	golang.org/x/net v0.27.0 // indirect
+	golang.org/x/text v0.16.0 // indirect
 )

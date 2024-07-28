@@ -11,13 +11,13 @@ RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go install -ldflags="-w -s"
 
 FROM alpine:latest
 
-ARG APP_USER=fedilpd
+ARG APP_USER=fedirss
 ARG APP_GID=1000
 ARG APP_UID=1000
 ARG APP_DIR=/app
 
-COPY --from=builder /go/bin/fedilpd /bin
-ENTRYPOINT ["/bin/fedilpd"]
+COPY --from=builder /go/bin/fedirss /bin
+ENTRYPOINT ["/bin/fedirss"]
 
 RUN addgroup -g $APP_GID $APP_USER \
     && adduser -h $APP_DIR -G $APP_USER -u $APP_UID -D $APP_USER  

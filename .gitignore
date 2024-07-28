@@ -1,4 +1,6 @@
 env.yaml
 *.db
 .vscode/
-/fedilpd
+/fedirss
+sent.db*
+vendor/

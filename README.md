@@ -1,3 +1,3 @@
-## FediLPD
+## fedirss
 
-Simple Mastodon-Bot to publish berlin.de/presse teaser to mastodon
+Simple Mastodon-Bot to publish berlin.de/wochenend-tipps/ teaser to mastodon

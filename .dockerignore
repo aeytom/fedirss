@@ -1,4 +1,6 @@
 env.yaml
-fedilpd
+fedirss
 Dockerfile
 k8s/
+sent.db*
+vendor/

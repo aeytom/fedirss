@@ -4,3 +4,5 @@ Dockerfile
 k8s/
 sent.db*
 vendor/
+microk8s.sh
+k8s/

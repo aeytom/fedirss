@@ -4,3 +4,4 @@ env.yaml
 /fedirss
 sent.db*
 vendor/
+microk8s.sh

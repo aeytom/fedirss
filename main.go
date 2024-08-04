@@ -96,6 +96,7 @@ func main() {
 		}
 		if item.Image != nil {
 			if img, err := ImageHttp(item.Image.URL); err == nil {
+				defer img.Close()
 				if a, err := mc.UploadMediaFromReader(context.Background(), img); err != nil {
 					settings.Log(err)
 				} else {
@@ -142,6 +143,7 @@ func ImageHttp(url string) (io.ReadCloser, error) {
 	}
 
 	req.Header.Add("User-Agent", UserAgent)
+	req.Header.Add("Accept", "image/jpeg")
 	if resp, err := http.DefaultClient.Do(req); err != nil {
 		return nil, err
 	} else if resp.StatusCode != 200 {
@@ -149,7 +151,6 @@ func ImageHttp(url string) (io.ReadCloser, error) {
 	} else if resp.Header.Get("content-type") != "image/jpeg" {
 		return nil, errors.New("invalid content type " + resp.Header.Get("content-type"))
 	} else {
-		// defer resp.Body.Close()
 		return resp.Body, nil
 	}
 }

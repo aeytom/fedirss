@@ -79,17 +79,14 @@ func main() {
 	for item := settings.GetUnsent(); item != nil; item = settings.GetUnsent() {
 		scheduledAt := item.PublishedParsed
 		title := hashtag(item.Title)
-		link := regexp.MustCompile(`/(\d+-\d+)-[^/]+\.html$`).ReplaceAllString(item.Link, "$1.html")
-		footer := "\n\n" + hashtag(strings.Join(item.Categories, " ")) + "\n" + link
-		status := hashtag(item.Description) + footer
-		length := mblen(title + status)
-		if length > 500 {
-			status = hashtag(left(item.Description, 499-mblen(title)-mblen(footer))) + "…" + footer
+		status := title + "\n\n" + item.Description + "\n\n" + strings.Join(item.Categories, " ")
+		length := mblen(hashtag(status))
+		if length > 485 {
+			status = hashtag(left(status, 485)) + "…"
 		}
 		toot := &mastodon.Toot{
-			Status:      status,
-			Sensitive:   true,
-			SpoilerText: title,
+			Status:      status + "\n" + item.Link,
+			Sensitive:   false,
 			Visibility:  "public",
 			Language:    "de",
 			ScheduledAt: scheduledAt,
@@ -115,6 +112,7 @@ func main() {
 		} else {
 			settings.MarkSent(item)
 			settings.Log("… sent ", item.Link)
+			return
 		}
 	}
 }

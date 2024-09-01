@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "fedilpd.labels" . | nindent 4 }}
 spec:
-  schedule: '*/15 * * * *'
+  schedule: '12 * * * *'
   concurrencyPolicy: Forbid
   startingDeadlineSeconds: 300
 

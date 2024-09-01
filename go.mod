@@ -1,6 +1,6 @@
 module github.com/aeytom/fedirss
 
-go 1.22.5
+go 1.23
 
 require (
 	github.com/mattn/go-mastodon v0.0.8
@@ -18,6 +18,6 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80 // indirect
-	golang.org/x/net v0.27.0 // indirect
-	golang.org/x/text v0.16.0 // indirect
+	golang.org/x/net v0.28.0 // indirect
+	golang.org/x/text v0.17.0 // indirect
 )
